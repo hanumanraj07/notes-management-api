@@ -29,5 +29,32 @@ const createNote = async (req, res) => {
 };
 
 module.exports = {
-    createNote
+    createNote,
+    createBulkNotes: async (req, res) => {
+        try {
+            const { notes } = req.body;
+
+            if (!notes || !Array.isArray(notes) || notes.length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Notes array is missing or empty",
+                    data: null
+                });
+            }
+
+            const insertedNotes = await Note.insertMany(notes);
+
+            return res.status(201).json({
+                success: true,
+                message: `${insertedNotes.length} notes created successfully`,
+                data: insertedNotes
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: error.message || "Internal server error",
+                data: null
+            });
+        }
+    }
 };
