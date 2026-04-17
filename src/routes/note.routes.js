@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { createNote, createBulkNotes, getNotes, getNoteById, replaceNote, updateNote, deleteNote } = require("../controllers/note.controller");
+const { createNote, createBulkNotes, getNotes, getNoteById, replaceNote, updateNote, deleteNote, deleteBulkNotes } = require("../controllers/note.controller");
 
 router.get("/", getNotes);
 router.get("/:id", getNoteById);
 router.put("/:id", replaceNote);
 router.patch("/:id", updateNote);
+router.delete("/bulk", deleteBulkNotes);
 router.delete("/:id", deleteNote);
 router.post("/bulk", createBulkNotes);
 router.post("/", createNote);
